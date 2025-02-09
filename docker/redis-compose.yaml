@@ -1,0 +1,26 @@
+services:
+  67a81f9fa8b51-redis:
+    platform: linux/amd64
+    image: docker.io/redis/redis-stack-server:latest
+    environment:
+      REDIS_DATABASE: redis
+      REDIS_PORT_NUMBER: 6379
+      REDIS_PASSWORD: secret
+    ports:
+      - '6379:6379'
+    networks:
+      - 67a81f9fa8b51-network
+
+  67a81f9fa8b51-redisinsight:
+    platform: linux/amd64
+    image: docker.io/redis/redisinsight:2.66
+    ports:
+      - '5540:5540'
+    volumes:
+      - './redis:/bitnami/redis/data'
+    networks:
+      - 67a81f9fa8b51-network
+
+networks:
+  67a81f9fa8b51-network:
+    driver: bridge
