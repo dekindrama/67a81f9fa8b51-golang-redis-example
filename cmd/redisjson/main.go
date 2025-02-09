@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	//* connect redis
+	//* init redis client
 	errConnectRedis := redis.ConnectRedis(
 		config.Config("REDIS_ADDRESS"),
 		config.Config("REDIS_PASSWORD"),
@@ -29,6 +29,7 @@ func main() {
 		Name: "User 1",
 	}
 
+	//* Set redis
 	valueSetResult, errSetResult := redishelper.JSONSet("test-go-json", "$", user)
 	if errSetResult != nil {
 		fmt.Printf("redishelper set error: %v\n", errSetResult)
@@ -39,6 +40,7 @@ func main() {
 		redishelper set value: OK
 	*/
 
+	//* Get redis
 	valueGetResult, errGetResult := redishelper.JSONGet("test-go-json")
 	if errGetResult != nil {
 		fmt.Printf("redishelper get error: %v\n", errGetResult)
@@ -52,5 +54,16 @@ func main() {
 	/**
 		* when cache is not exist
 		redishelper get value: 
+	*/
+
+	//* Delete redis
+	valueDelResult, errDelResult := redishelper.Del("test-go-json")
+	if errDelResult != nil {
+		fmt.Printf("redishelper Del error: %v\n", errDelResult)
+	}
+	fmt.Printf("redishelper Del value: %v\n", valueDelResult)
+	/**
+		* when del cache is success
+		redishelper Del value: 1
 	*/
 }

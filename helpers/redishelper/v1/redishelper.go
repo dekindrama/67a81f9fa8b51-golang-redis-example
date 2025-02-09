@@ -23,6 +23,14 @@ func Get(key string) (string, error) {
 	return resultValue, resultErr
 }
 
+func Del(key string) (int64, error) {
+	resultValue, resultErr := redis.Client.Del(
+		redis.Ctx,
+		key,
+	).Result()
+	return resultValue, resultErr
+}
+
 func JSONSet(key, path string, value interface{}) (string, error) {
 	resultValue, resultErr := redis.Client.JSONSet(
 			redis.Ctx,

@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	//* connect redis
+	//* init redis client
 	errConnectRedis := redis.ConnectRedis(
 		config.Config("REDIS_ADDRESS"),
 		config.Config("REDIS_PASSWORD"),
@@ -20,6 +20,7 @@ func main() {
 	fmt.Printf("redis Client: %v\n", redis.Client)
 	fmt.Printf("redis Ctx: %v\n", redis.Ctx)
 
+	//* set redis
 	valueSetResult, errSetResult := redishelper.Set("test-go", "hello world", 90)
 	if errSetResult != nil {
 		fmt.Printf("redishelper set error: %v\n", errSetResult)
@@ -31,6 +32,7 @@ func main() {
 	*/
 
 
+	//* get redis
 	valueGetResult, errGetResult := redishelper.Get("test-go")
 	if errGetResult != nil {
 		fmt.Printf("redishelper get error: %v\n", errGetResult)
@@ -45,5 +47,16 @@ func main() {
 		* when cache is not exist
 		redishelper get error: redis: nil
 		redishelper get value: 
+	*/
+
+	//* Delete redis
+	valueDelResult, errDelResult := redishelper.Del("test-go")
+	if errDelResult != nil {
+		fmt.Printf("redishelper Del error: %v\n", errDelResult)
+	}
+	fmt.Printf("redishelper Del value: %v\n", valueDelResult)
+	/**
+		* when del cache is success
+		redishelper Del value: 1
 	*/
 }
