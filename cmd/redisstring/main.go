@@ -11,8 +11,8 @@ import (
 func main() {
 	//* init redis client
 	errConnectRedis := redis.ConnectRedis(
-		config.Config("REDIS_ADDRESS"),
-		config.Config("REDIS_PASSWORD"),
+		config.Config("REDIS_ADDRESS"), //* localhost:6379
+		config.Config("REDIS_PASSWORD"), //* secret
 	)
 	if errConnectRedis != nil {
 		log.Fatalf("redis error main: %v\n", errConnectRedis)
@@ -21,7 +21,11 @@ func main() {
 	fmt.Printf("redis Ctx: %v\n", redis.Ctx)
 
 	//* set redis
-	valueSetResult, errSetResult := redishelper.Set("test-go", "hello world", 90)
+	valueSetResult, errSetResult := redishelper.Set(
+		"test-go", //* key
+		"hello world", //* value
+		90, //* data duration, 90s
+	)
 	if errSetResult != nil {
 		fmt.Printf("redishelper set error: %v\n", errSetResult)
 	}
@@ -33,7 +37,9 @@ func main() {
 
 
 	//* get redis
-	valueGetResult, errGetResult := redishelper.Get("test-go")
+	valueGetResult, errGetResult := redishelper.Get(
+		"test-go", //* key
+	)
 	if errGetResult != nil {
 		fmt.Printf("redishelper get error: %v\n", errGetResult)
 	}
@@ -50,7 +56,9 @@ func main() {
 	*/
 
 	//* Delete redis
-	valueDelResult, errDelResult := redishelper.Del("test-go")
+	valueDelResult, errDelResult := redishelper.Del(
+		"test-go", //* key
+	)
 	if errDelResult != nil {
 		fmt.Printf("redishelper Del error: %v\n", errDelResult)
 	}

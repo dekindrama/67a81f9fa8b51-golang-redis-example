@@ -11,8 +11,8 @@ import (
 func main() {
 	//* init redis client
 	errConnectRedis := redis.ConnectRedis(
-		config.Config("REDIS_ADDRESS"),
-		config.Config("REDIS_PASSWORD"),
+		config.Config("REDIS_ADDRESS"), //* localhost:6379
+		config.Config("REDIS_PASSWORD"), //* secret
 	)
 	if errConnectRedis != nil {
 		log.Fatalf("redis error main: %v\n", errConnectRedis)
@@ -30,7 +30,11 @@ func main() {
 	}
 
 	//* Set redis
-	valueSetResult, errSetResult := redishelper.JSONSet("test-go-json", "$", user)
+	valueSetResult, errSetResult := redishelper.JSONSet(
+		"test-go-json", //* key
+		"$", //* target path, meaning it is gonna target base data
+		user, //* value
+	)
 	if errSetResult != nil {
 		fmt.Printf("redishelper set error: %v\n", errSetResult)
 	}
@@ -41,7 +45,9 @@ func main() {
 	*/
 
 	//* Get redis
-	valueGetResult, errGetResult := redishelper.JSONGet("test-go-json")
+	valueGetResult, errGetResult := redishelper.JSONGet(
+		"test-go-json", //* key
+	)
 	if errGetResult != nil {
 		fmt.Printf("redishelper get error: %v\n", errGetResult)
 	}
@@ -57,7 +63,9 @@ func main() {
 	*/
 
 	//* Delete redis
-	valueDelResult, errDelResult := redishelper.Del("test-go-json")
+	valueDelResult, errDelResult := redishelper.Del(
+		"test-go-json", //* key
+	)
 	if errDelResult != nil {
 		fmt.Printf("redishelper Del error: %v\n", errDelResult)
 	}
